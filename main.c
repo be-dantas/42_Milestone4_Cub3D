@@ -31,6 +31,8 @@ void init (t_access access)
 
     access.mlx_window = mlx_new_window
     (access.mlx_connection, WIDTH, HEIGHT, "Cub3D");
+    access.img = mlx_new_image(access.mlx_connection, WIDTH, HEIGHT);
+    access.img_pointer = mlx_get_data_addr(access.img, &access.bits_per_pixel, &access.line_len, &access.endian);
     mlx_key_hook(access.mlx_window, key_config, &access);
     mlx_loop(access.mlx_connection);
 }
