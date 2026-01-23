@@ -2,6 +2,8 @@
 # define CUB3D_H
 
 #include "../minilibx-linux/mlx.h"
+#include <stdlib.h>
+#include <unistd.h>
 
 # define WIDTH 800
 # define HEIGHT 600
