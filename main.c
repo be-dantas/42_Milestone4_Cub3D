@@ -27,8 +27,8 @@ int	key_config(int keycode, void *param)
 
 void init (t_access access)
 {
+    access.player = malloc(sizeof(t_player));
     access.mlx_connection = mlx_init();
-
     access.mlx_window = mlx_new_window
     (access.mlx_connection, WIDTH, HEIGHT, "Cub3D");
     access.img = mlx_new_image(access.mlx_connection, WIDTH, HEIGHT);

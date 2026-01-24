@@ -8,6 +8,8 @@
 # define WIDTH 800
 # define HEIGHT 600
 
+typedef struct s_player t_player;
+
 typedef struct s_access
 {
 	void	*mlx_connection;
@@ -17,6 +19,15 @@ typedef struct s_access
 	int		bits_per_pixel;
 	int		line_len;
 	int		endian;
+	t_player *player;
 }	t_access;
+
+typedef struct s_player
+{
+	int		pos_x;
+	int		pos_y;
+
+} t_player;
+
 
 #endif
