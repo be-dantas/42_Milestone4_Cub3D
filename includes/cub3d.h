@@ -24,9 +24,12 @@ typedef struct s_access
 
 typedef struct s_player
 {
-	int		pos_x;
-	int		pos_y;
-
+	float		pos_x;
+	float		pos_y;
+	float		left;
+	float		right;
+	float		up;
+	float		down;
 } t_player;
 
 

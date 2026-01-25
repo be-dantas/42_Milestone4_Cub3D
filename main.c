@@ -11,7 +11,11 @@ int	close_window(t_access *access)
 		mlx_destroy_display(access->mlx_connection);
 		free(access->mlx_connection);
 	}
-	exit(0);
+    if (access->player)
+        free(access->player);
+    if (access)
+        free(access);
+    exit(0);
 	return (0);
 }
 
@@ -22,25 +26,71 @@ int	key_config(int keycode, void *param)
     access = (t_access *)param;
     if (keycode == 65307)
 		close_window(access);
+    if (keycode == 65361)
+		access->player->left = 1;
+	if (keycode == 65363)
+		access->player->right = 1;
+	if (keycode == 65362)
+		access->player->up = 1;
+	if (keycode == 65364)
+		access->player->down = 1;
+    return (0);
+}
+int key_release(int keycode, void *param)
+{
+    t_access    *access;
+
+    access = (t_access *)param;
+    if (keycode == 65361)
+		access->player->left = 0;
+	if (keycode == 65363)
+		access->player->right = 0;
+	if (keycode == 65362)
+		access->player->up = 0;
+	if (keycode == 65364)
+		access->player->down = 0;
     return (0);
 }
 
-void init (t_access access)
+int action(void *param)
 {
-    access.player = malloc(sizeof(t_player));
-    access.mlx_connection = mlx_init();
-    access.mlx_window = mlx_new_window
-    (access.mlx_connection, WIDTH, HEIGHT, "Cub3D");
-    access.img = mlx_new_image(access.mlx_connection, WIDTH, HEIGHT);
-    access.img_pointer = mlx_get_data_addr(access.img, &access.bits_per_pixel, &access.line_len, &access.endian);
-    mlx_key_hook(access.mlx_window, key_config, &access);
-    mlx_loop(access.mlx_connection);
+    t_access    *access;
+
+    access = (t_access *)param;
+    if (access->player->left)
+		access->player->pos_x = access->player->pos_x - 0.01;
+	if (access->player->right)
+		access->player->pos_x = access->player->pos_x + 0.01;
+	if (access->player->up)
+		access->player->pos_y = access->player->pos_y - 0.01;
+	if (access->player->down)
+		access->player->pos_y = access->player->pos_y + 0.01;
+    mlx_clear_window(access->mlx_connection, access->mlx_window);
+    mlx_pixel_put(access->mlx_connection, access->mlx_window, access->player->pos_x, access->player->pos_y, 0xFFFFFF);
+    return (0);
+}
+
+void init (t_access *access)
+{
+    access->player = malloc(sizeof(t_player));
+    access->player->pos_x = WIDTH/2;
+    access->player->pos_y = HEIGHT/2;
+    access->player->down = 0; access->player->up = 0; access->player->right = 0; access->player->left = 0;
+    access->mlx_connection = mlx_init();
+    access->mlx_window = mlx_new_window(access->mlx_connection, WIDTH, HEIGHT, "Cub3D");
+    //access->img = mlx_new_image(access->mlx_connection, WIDTH, HEIGHT);
+    //access->img_pointer = mlx_get_data_addr(access->img, &access->bits_per_pixel, &access->line_len, &access->endian);
+    mlx_hook(access->mlx_window, 2, 1L << 0, key_config, access);
+    mlx_hook(access->mlx_window, 3, 1L << 1, key_release, access);
+    mlx_loop_hook(access->mlx_connection, action, access);
+    mlx_loop(access->mlx_connection);
 }
 
 int main()
 {
-    t_access access;
+    t_access *access;
 
+    access = malloc(sizeof(t_access));
     init(access);
     return (0);
 }
