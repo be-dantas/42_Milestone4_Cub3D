@@ -1,5 +1,7 @@
 #include "./includes/cub3d.h"
 
+//CRIAR UMA FLECHA QUE ESTEJA PRESA NO PIXEL(PLAYER) E GIRA 360graus EM TORNO DO PERSONAGEM APONTANDO PARA O MOUSE
+
 int	close_window(t_access *access)
 {
 	if (access->img)
@@ -70,40 +72,37 @@ int action(void *param)
     return (0);
 }
 
-void init (t_access *access)
+void game_keyboard(t_access *access)
+{
+    mlx_hook(access->mlx_window, 2, 1L << 0, key_config, access);
+    mlx_hook(access->mlx_window, 3, 1L << 1, key_release, access);
+    mlx_loop_hook(access->mlx_connection, action, access);
+}
+
+void init(t_access *access)
 {
     access->player = malloc(sizeof(t_player));
-
-
-
-
-    //PRECISA POR EM ALGUMA FUNÇLÃO INICIALIZADORA
     access->player->pos_x = WIDTH/2;
     access->player->pos_y = HEIGHT/2;
     access->player->down = 0;
     access->player->up = 0;
     access->player->right = 0;
     access->player->left = 0;
-    //PRECISA POR EM ALGUMA FUNÇLÃO INICIALIZADORA
-
-
-
-
     access->mlx_connection = mlx_init();
     access->mlx_window = mlx_new_window(access->mlx_connection, WIDTH, HEIGHT, "Cub3D");
     //access->img = mlx_new_image(access->mlx_connection, WIDTH, HEIGHT);
     //access->img_pointer = mlx_get_data_addr(access->img, &access->bits_per_pixel, &access->line_len, &access->endian);
-    mlx_hook(access->mlx_window, 2, 1L << 0, key_config, access);
-    mlx_hook(access->mlx_window, 3, 1L << 1, key_release, access);
-    mlx_loop_hook(access->mlx_connection, action, access);
-    mlx_loop(access->mlx_connection);
 }
 
-int main()
+int main(int argc, char **argv)
 {
     t_access *access;
+    (void)argc;
+    (void)argv;
 
     access = malloc(sizeof(t_access));
     init(access);
+    game_keyboard(access);
+    mlx_loop(access->mlx_connection);
     return (0);
 }
