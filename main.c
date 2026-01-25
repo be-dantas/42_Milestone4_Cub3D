@@ -73,9 +73,22 @@ int action(void *param)
 void init (t_access *access)
 {
     access->player = malloc(sizeof(t_player));
+
+
+
+
+    //PRECISA POR EM ALGUMA FUNÇLÃO INICIALIZADORA
     access->player->pos_x = WIDTH/2;
     access->player->pos_y = HEIGHT/2;
-    access->player->down = 0; access->player->up = 0; access->player->right = 0; access->player->left = 0;
+    access->player->down = 0;
+    access->player->up = 0;
+    access->player->right = 0;
+    access->player->left = 0;
+    //PRECISA POR EM ALGUMA FUNÇLÃO INICIALIZADORA
+
+
+
+
     access->mlx_connection = mlx_init();
     access->mlx_window = mlx_new_window(access->mlx_connection, WIDTH, HEIGHT, "Cub3D");
     //access->img = mlx_new_image(access->mlx_connection, WIDTH, HEIGHT);
