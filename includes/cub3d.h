@@ -4,11 +4,14 @@
 #include "../minilibx-linux/mlx.h"
 #include <stdlib.h>
 #include <unistd.h>
+#include <math.h>
 
 # define WIDTH 800
 # define HEIGHT 600
+# define PI 3.1415926535
 
 typedef struct s_player t_player;
+typedef struct s_access	t_access;
 
 typedef struct s_access
 {
@@ -30,7 +33,7 @@ typedef struct s_player
 	float		right;
 	float		up;
 	float		down;
-} t_player;
+}	t_player;
 
 
 #endif
