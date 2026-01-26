@@ -28,13 +28,13 @@ int	key_config(int keycode, void *param)
     access = (t_access *)param;
     if (keycode == 65307)
 		close_window(access);
-    if (keycode == 65361)
+    if (keycode == 97)
 		access->player->left = 1;
-	if (keycode == 65363)
+	if (keycode == 100)
 		access->player->right = 1;
-	if (keycode == 65362)
+	if (keycode == 119)
 		access->player->up = 1;
-	if (keycode == 65364)
+	if (keycode == 115)
 		access->player->down = 1;
     return (0);
 }
@@ -43,13 +43,13 @@ int key_release(int keycode, void *param)
     t_access    *access;
 
     access = (t_access *)param;
-    if (keycode == 65361)
+    if (keycode == 97)
 		access->player->left = 0;
-	if (keycode == 65363)
+	if (keycode == 100)
 		access->player->right = 0;
-	if (keycode == 65362)
+	if (keycode == 119)
 		access->player->up = 0;
-	if (keycode == 65364)
+	if (keycode == 115)
 		access->player->down = 0;
     return (0);
 }
