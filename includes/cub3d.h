@@ -33,6 +33,8 @@ typedef struct s_player
 	float		right;
 	float		up;
 	float		down;
+	float		arrow_right;
+	float		arrow_left;
 }	t_player;
 
 
