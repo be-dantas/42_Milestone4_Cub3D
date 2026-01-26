@@ -47,5 +47,14 @@ void    a_m(t_access *access);
 void    d_m(t_access *access);
 void 	right_angle(t_access *access);
 void 	left_angle(t_access *access);
+void 	game_keyboard(t_access *access);
+int 	action(void *param);
+int		key_config(int keycode, void *param);
+int 	key_release(int keycode, void *param);
+void    frame_update(t_access *access);
+int		close_window(t_access *access);
+void	init(t_access *access);
+void    put_pixel_player(t_access *access);
+void    frame_update(t_access *access);
 
 #endif
