@@ -11,6 +11,8 @@
 # define HEIGHT 600
 # define PI 3.1415926535
 
+typedef struct s_player	t_player;
+
 typedef struct s_access
 {
 	void		*mlx_connection;
