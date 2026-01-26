@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <math.h>
+#include <stdio.h>
 
 # define WIDTH 800
 # define HEIGHT 600
@@ -35,7 +36,16 @@ typedef struct s_player
 	float		down;
 	float		arrow_right;
 	float		arrow_left;
+	float		pos_dx;
+	float		pos_dy;
+	float		pos_ang;
 }	t_player;
 
+void    w_m(t_access *access);
+void    s_m(t_access *access);
+void    a_m(t_access *access);
+void    d_m(t_access *access);
+void 	right_angle(t_access *access);
+void 	left_angle(t_access *access);
 
 #endif
