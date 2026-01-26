@@ -6,7 +6,7 @@
 #    By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/26 16:34:11 by bedantas          #+#    #+#              #
-#    Updated: 2026/01/23 14:41:54 by bedantas         ###   ########.fr        #
+#    Updated: 2026/01/26 17:35:06 by bedantas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,8 @@ CC			= cc
 CFLAGS		= -Wall -Wextra -Werror
 MLX_FLAGS	= -O3 -lXext -lX11 -lm -lz
 
-LIBFT_DIR	= ./libft
-MLX_DIR		= ./minilibx-linux
+LIBFT_DIR	= ./includes/libft
+MLX_DIR		= ./includes/minilibx-linux
 
 SRC_DIR		= src
 LIBFT_LIB	= $(LIBFT_DIR)/libft.a
