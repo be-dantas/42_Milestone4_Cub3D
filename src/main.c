@@ -29,6 +29,7 @@ int	main(int argc, char **argv)
 	access = malloc(sizeof(t_access));
 	init(access);
 	game_keyboard(access);
+	mlx_hook(access->mlx_window, 17, 0, close_window, access);
 	mlx_loop(access->mlx_connection);
 	return (0);
 }
