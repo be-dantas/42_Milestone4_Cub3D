@@ -19,10 +19,11 @@ MLX_FLAGS	= -O3 -lXext -lX11 -lm -lz
 LIBFT_DIR	= ./libft
 MLX_DIR		= ./minilibx-linux
 
+SRC_DIR		= src
 LIBFT_LIB	= $(LIBFT_DIR)/libft.a
 MLX_LIB		= $(MLX_DIR)/libmlx_Linux.a
 
-SRCS		= $(wildcard *.c)
+SRCS		= $(shell find $(SRC_DIR) -name "*.c")
 OBJS		= $(SRCS:.c=.o)
 
 INCLUDES	= -I. -I$(LIBFT_DIR)

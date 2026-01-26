@@ -1,4 +1,4 @@
-#include "./includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
 void    w_m(t_access *access)
 {

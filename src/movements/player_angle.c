@@ -1,4 +1,4 @@
-#include "./includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
 void left_angle(t_access *access)
 {

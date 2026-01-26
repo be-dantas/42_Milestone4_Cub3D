@@ -1,4 +1,4 @@
-#include "./includes/cub3d.h"
+#include "../includes/cub3d.h"
 
 //CRIAR UMA FLECHA QUE ESTEJA PRESA NO PIXEL(PLAYER) E GIRA 360graus EM TORNO DO PERSONAGEM APONTANDO PARA O MOUSE
 
