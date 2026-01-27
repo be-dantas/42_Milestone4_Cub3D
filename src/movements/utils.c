@@ -11,10 +11,6 @@ int	close_window(t_access *access)
 		mlx_destroy_display(access->mlx_connection);
 		free(access->mlx_connection);
 	}
-	if (access->player)
-		free(access->player);
-	if (access)
-		free(access);
 	exit(0);
 	return (0);
 }

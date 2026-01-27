@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 09:49:36 by bedantas          #+#    #+#             */
-/*   Updated: 2025/10/15 15:09:33 by bedantas         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:34:27 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,7 @@ char	**ft_split(char const *s, char c);
 
 double	ft_atof(char *av);
 int		ft_is_double(char *av);
+int		ft_strlen_array(char **s);
+void	ft_free_array(char **array);
 
 #endif
