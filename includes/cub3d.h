@@ -12,6 +12,9 @@
 # define WIDTH 800
 # define HEIGHT 600
 # define PI 3.1415926535
+# define FOV 60
+# define N_RAYS 60
+# define CUB_SIZE 64
 
 typedef struct s_player	t_player;
 

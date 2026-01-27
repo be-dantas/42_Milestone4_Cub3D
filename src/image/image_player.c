@@ -28,15 +28,46 @@ void	put_pixel_player(t_access *access)
 	px = access->img_pointer + ((int)access->player->pos_y * access->line_len
 			+ (int)access->player->pos_x * (access->bits_per_pixel / 8));
 	*(unsigned int *)px = 0xFFFFFF;
-	int k = 0;
-	int xx = 
-	while (k < 100)
+
+	int r;
+	int k;
+	double ray_angle;
+	double ray_dx;
+	double ray_dy;
+	double xx;
+	double yy;
+
+	r = 0;
+	while (r < N_RAYS)
 	{
-		mlx_pixel_put(access->mlx_connection, access->mlx_window, xx, yy, 0xFFFFFF);
-		access->player->pos_dx;
-		access->player->pos_dy;
-		k++;
+		ray_angle = access->player->pos_ang
+			- (FOV * PI / 180.0) / 2
+			+ r * ((FOV * PI / 180.0) / N_RAYS);
+
+		ray_dx = cos(ray_angle);
+		ray_dy = sin(ray_angle);
+
+		xx = access->player->pos_x;
+		yy = access->player->pos_y;
+
+		k = 0;
+		while (1)
+		{
+			int map_x = (int)(xx / CUB_SIZE);
+			int map_y = (int)(yy / CUB_SIZE);
+			if (map[map_y][map_x] == '1')
+				break;
+			px = access->img_pointer + ((int)yy * access->line_len
+					+ (int)xx * (access->bits_per_pixel / 8));
+			*(unsigned int *)px = 0x99FFFF;
+
+			xx += ray_dx;
+			yy += ray_dy;
+			k++;
+		}
+		r++;
 	}
+
 }
 
 void	frame_update(t_access *access)

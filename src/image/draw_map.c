@@ -23,9 +23,7 @@ void draw_map(char **map, int i, int j, t_access *access)
             {
                 px = access->img_pointer + (y * access->line_len + x
                         * (access->bits_per_pixel / 8));
-                if (y == start_y || y == start_y + 63 || x == start_x || x == start_x + 63)
-                    *(unsigned int *)px = 0x000000; // borda preta
-                else if (map[i][j] == '1')
+                if (map[i][j] == '1')
                     *(unsigned int *)px = 0xFFFFFF; // Branco para parede
                 else if (map[i][j] == '0')
                     *(unsigned int *)px = 0x000000; // Preto para chão
