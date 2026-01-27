@@ -3,8 +3,8 @@
 void	init(t_access *access)
 {
 	access->player = malloc(sizeof(t_player));
-	access->player->pos_x = WIDTH / 2;
-	access->player->pos_y = HEIGHT / 2;
+	access->player->pos_x = SCREEN_WIDTH / 2;
+	access->player->pos_y = SCREEN_HEIGHT / 2;
 	access->player->down = 0;
 	access->player->up = 0;
 	access->player->right = 0;

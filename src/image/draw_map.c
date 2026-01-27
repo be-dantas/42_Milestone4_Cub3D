@@ -8,13 +8,10 @@ void draw_map(char **map, int i, int j, t_access *access)
     int start_y;
     char *px;
 
-    // Salvamos a posição inicial baseada nos índices da matriz
-    // Multiplicamos por 64 para converter a "célula" em pixels
     start_y = i * 64; 
-    
     while (map[i][j])
     {
-        start_x = j * 64; // O X começa onde a coluna 'j' manda
+        start_x = j * 64;
         y = start_y;
         while (y < start_y + 64)
         {
@@ -24,14 +21,14 @@ void draw_map(char **map, int i, int j, t_access *access)
                 px = access->img_pointer + (y * access->line_len + x
                         * (access->bits_per_pixel / 8));
                 if (map[i][j] == '1')
-                    *(unsigned int *)px = 0xFFFFFF; // Branco para parede
+                    *(unsigned int *)px = 0xFFFFFF;
                 else if (map[i][j] == '0')
-                    *(unsigned int *)px = 0x000000; // Preto para chão
+                    *(unsigned int *)px = 0x000000;
                 
                 x++;
             }
             y++;
         }
-        j++; // Avança para a próxima coluna na horizontal
+        j++;
     }
 }

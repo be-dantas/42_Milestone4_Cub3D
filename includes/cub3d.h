@@ -9,8 +9,8 @@
 # include <stdio.h>
 # include <fcntl.h>
 
-# define WIDTH 800
-# define HEIGHT 600
+# define SCREEN_WIDTH 800
+# define SCREEN_HEIGHT 600
 # define PI 3.1415926535
 # define FOV 60
 # define N_RAYS 60
