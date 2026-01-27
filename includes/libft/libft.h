@@ -16,6 +16,7 @@
 # include <unistd.h> // para write
 # include <stdlib.h> // para malloc, free
 # include <stddef.h> // para size_t
+# include <stdio.h>
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);

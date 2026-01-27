@@ -2,10 +2,12 @@
 # define CUB3D_H
 
 # include "./minilibx-linux/mlx.h"
+# include "../src/gnl/get_next_line.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <math.h>
 # include <stdio.h>
+# include <fcntl.h>
 
 # define WIDTH 800
 # define HEIGHT 600
