@@ -28,6 +28,15 @@ void	put_pixel_player(t_access *access)
 	px = access->img_pointer + ((int)access->player->pos_y * access->line_len
 			+ (int)access->player->pos_x * (access->bits_per_pixel / 8));
 	*(unsigned int *)px = 0xFFFFFF;
+	int k = 0;
+	int xx = 
+	while (k < 100)
+	{
+		mlx_pixel_put(access->mlx_connection, access->mlx_window, xx, yy, 0xFFFFFF);
+		access->player->pos_dx;
+		access->player->pos_dy;
+		k++;
+	}
 }
 
 void	frame_update(t_access *access)
