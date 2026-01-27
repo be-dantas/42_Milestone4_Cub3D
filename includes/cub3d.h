@@ -61,4 +61,6 @@ void	d_m(t_access *access);
 // movements/utils.c
 int		close_window(t_access *access);
 
+void draw_map(char **map, int i, int j, t_access *access);
+
 #endif

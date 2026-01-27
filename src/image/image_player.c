@@ -2,22 +2,28 @@
 
 void	put_pixel_player(t_access *access)
 {
-	char	*px;
-	int		x;
-	int		y;
+		char *map[] = {
+		"111111111111111",
+		"100000000000001",
+		"100011000100001",
+		"100011000010101",
+		"100011000011001",
+		"100000000110001",
+		"100010011010001",
+		"111111111111111",
+		NULL
+	};
 
+	char	*px;
+	int		y;
+	int		i;
+
+	i = 0;
 	y = 0;
-	while (y < HEIGHT)
+	while (map[i] != NULL)
 	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			px = access->img_pointer + (y * access->line_len + x
-					* (access->bits_per_pixel / 8));
-			*(unsigned int *)px = 0;
-			x++;
-		}
-		y++;
+		draw_map(map, i, 0, access);
+		i++;
 	}
 	px = access->img_pointer + ((int)access->player->pos_y * access->line_len
 			+ (int)access->player->pos_x * (access->bits_per_pixel / 8));
