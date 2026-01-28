@@ -17,6 +17,8 @@
 # define CUB_SIZE 64
 
 typedef struct s_player	t_player;
+typedef struct s_access t_access;
+typedef struct s_calc t_calc;
 
 typedef struct s_access
 {
@@ -28,6 +30,7 @@ typedef struct s_access
 	int			line_len;
 	int			endian;
 	t_player	*player;
+	t_calc		*calc;
 }	t_access;
 
 typedef struct s_player
@@ -44,6 +47,25 @@ typedef struct s_player
 	float		pos_dy;
 	float		pos_ang;
 }	t_player;
+
+typedef struct s_calc
+{
+	char	*px;
+	int		r;
+	double	ray_angle;
+	double	ray_dx;
+	double	ray_dy;
+	double	xx;
+	double	yy;
+	double	dist;
+	int		map_x;
+	int		map_y;
+	double	wall_height;
+	int		wall_top;
+	int		wall_bottom;
+	int		column_width;
+	int		column_x;
+}	t_calc;
 
 // image/image.c
 void	frame_update(t_access *access);

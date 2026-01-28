@@ -1,5 +1,18 @@
 #include "../../includes/cub3d.h"
 
+void	create_image(t_access *access)
+{
+	access->img = mlx_new_image(
+			access->mlx_connection,
+			SCREEN_WIDTH,
+			SCREEN_HEIGHT);
+	access->img_pointer = mlx_get_data_addr(
+			access->img,
+			&access->bits_per_pixel,
+			&access->line_len,
+			&access->endian);
+}
+
 int	key_config(int keycode, void *param)
 {
 	t_access	*access;
@@ -61,6 +74,8 @@ int	action(void *param)
 		a_m(access);
 	if (access->player->right)
 		d_m(access);
+	mlx_destroy_image(access->mlx_connection, access->img);
+	create_image(access);
 	frame_update(access);
 	return (0);
 }
