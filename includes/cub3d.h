@@ -2,6 +2,7 @@
 # define CUB3D_H
 
 # include "./minilibx-linux/mlx.h"
+# include "./libft/libft.h"
 # include "../src/gnl/get_next_line.h"
 # include <stdlib.h>
 # include <unistd.h>
@@ -25,6 +26,7 @@ typedef struct s_game
 	int			floor_color;
 	int			ceiling_color;
 	char		**map;
+	int			flag_start_map;
 	t_player	*player;
 } t_game;
 
@@ -56,8 +58,13 @@ typedef struct s_player
 	float		pos_dy;
 }	t_player;
 
-// image/init_game.c
+// image/init_game
+void	error_exit(t_game *game, char *str);
 void	init_game(t_game *game, char *file);
+int		new_tex(char *line, t_game *game);
+int		new_color(char *line, t_game *game);
+int		new_map(char *line, t_game *game);
+int		valid_game(t_game *game);
 
 // image/image.c
 void	frame_update(t_access *access);

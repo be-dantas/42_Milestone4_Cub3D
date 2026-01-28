@@ -33,15 +33,10 @@ int	main(int argc, char **argv)
 	access.game = &game;
 	game.player = &player;
 	init_game(&game, argv[1]);
-	//valid_game(&game);    valida e preenche a struct game com a posição x e y do player
-	init_access(&access);
-	init_player(&player);
-
-
-
-
-	game_keyboard(&access);
-	mlx_hook(access.mlx_window, 17, 0, close_window, &access);
-	mlx_loop(access.mlx_connection);
+	// init_access(&access);
+	// init_player(&player);
+	// game_keyboard(&access);
+	// mlx_hook(access.mlx_window, 17, 0, close_window, &access);
+	// mlx_loop(access.mlx_connection);
 	return (0);
 }

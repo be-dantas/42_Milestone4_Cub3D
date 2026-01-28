@@ -6,18 +6,18 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:25:12 by bedantas          #+#    #+#             */
-/*   Updated: 2026/01/27 16:29:23 by bedantas         ###   ########.fr       */
+/*   Updated: 2026/01/28 14:26:21 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strlen_array(char **s)
+size_t	ft_strlen_array(char **s)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (s[i] != '\0')
+	while (s[i])
 	{
 		i++;
 	}
