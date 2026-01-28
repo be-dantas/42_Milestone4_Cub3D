@@ -1,15 +1,15 @@
 #include "../../includes/cub3d.h"
 
-int	close_window(t_access *access)
+int	close_window(t_access *ac)
 {
-	if (access->img)
-		mlx_destroy_image(access->mlx_connection, access->img);
-	if (access->mlx_window)
-		mlx_destroy_window(access->mlx_connection, access->mlx_window);
-	if (access->mlx_connection)
+	if (ac->img)
+		mlx_destroy_image(ac->mlx_connection, ac->img);
+	if (ac->mlx_window)
+		mlx_destroy_window(ac->mlx_connection, ac->mlx_window);
+	if (ac->mlx_connection)
 	{
-		mlx_destroy_display(access->mlx_connection);
-		free(access->mlx_connection);
+		mlx_destroy_display(ac->mlx_connection);
+		free(ac->mlx_connection);
 	}
 	exit(0);
 	return (0);

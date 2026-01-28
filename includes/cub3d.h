@@ -17,9 +17,24 @@
 # define N_RAYS 1000
 # define CUB_SIZE 64
 
+typedef struct s_game 	t_game;
 typedef struct s_player	t_player;
-typedef struct s_access t_access;
 typedef struct s_calc 	t_calc;
+typedef struct s_access t_access;
+
+typedef struct s_access
+{
+	void		*mlx_connection;
+	void		*mlx_window;
+	void		*img;
+	char		*img_pointer;
+	int			bits_per_pixel;
+	int			line_len;
+	int			endian;
+	t_game		*g;
+	t_player	*p;
+	t_calc		*calc;
+}	t_access;
 
 typedef struct s_game
 {
@@ -31,22 +46,7 @@ typedef struct s_game
 	int			ceiling_color;
 	char		**map;
 	int			flag_start_map;
-	t_player	*player;
 } t_game;
-
-typedef struct s_access
-{
-	void		*mlx_connection;
-	void		*mlx_window;
-	void		*img;
-	char		*img_pointer;
-	int			bits_per_pixel;
-	int			line_len;
-	int			endian;
-	t_player	*player;
-	t_game		*game;
-	t_calc		*calc;
-}	t_access;
 
 typedef struct s_player
 {
@@ -83,34 +83,31 @@ typedef struct s_calc
 }	t_calc;
 
 // image/init_game
-void	error_exit(t_game *game, char *str);
-void	init_game(t_game *game, char *file);
-int		new_tex(char *line, t_game *game);
-int		new_color(char *line, t_game *game);
-int		new_map(char *line, t_game *game);
-int		valid_game(t_game *game);
-
-// image/draw_map.c
-void	draw_map(char **map, int i, int j, t_access *access);
+void	error_exit(t_access *ac, char *str);
+void	init_game(t_access *ac, char *file);
+int		new_tex(char *line, t_access *ac);
+int		new_color(char *line, t_access *ac);
+int		new_map(char *line, t_access *ac);
+int		valid_game(t_access *ac);
 
 // image/image_player.c
-void	frame_update(t_access *access);
+void	frame_update(t_access *ac);
 
 // movements/key.c
-void	create_image(t_access *access);
-void	game_keyboard(t_access *access);
+void	create_image(t_access *ac);
+void	game_keyboard(t_access *ac);
 
 // movements/player_angle.c
-void	right_angle(t_access *access);
-void	left_angle(t_access *access);
+void	right_angle(t_access *ac);
+void	left_angle(t_access *ac);
 
 // movements/player_mov.c
-void	w_m(t_access *access);
-void	s_m(t_access *access);
-void	a_m(t_access *access);
-void	d_m(t_access *access);
+void	w_m(t_access *ac);
+void	s_m(t_access *ac);
+void	a_m(t_access *ac);
+void	d_m(t_access *ac);
 
 // movements/utils.c
-int		close_window(t_access *access);
+int		close_window(t_access *ac);
 
 #endif

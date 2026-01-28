@@ -1,6 +1,6 @@
 #include "../../../includes/cub3d.h"
 
-void	join_line_map(char *line, t_game *game)
+void	join_line_map(char *line, t_access *ac)
 {
 	int		i;
 	int		len;
@@ -9,13 +9,13 @@ void	join_line_map(char *line, t_game *game)
 
 	i = 0;
 	len = 0;
-	len_array = ft_strlen_array(game->map);
+	len_array = ft_strlen_array(ac->g->map);
 	temp = malloc(sizeof(char *) * (len_array + 2));
 	if (!temp)
-		error_exit(game, "Error malloc\n");
-	while (game->map[i])
+		error_exit(ac, "Error malloc\n");
+	while (ac->g->map[i])
 	{
-		temp[i] = game->map[i];
+		temp[i] = ac->g->map[i];
 		i++;
 	}
 	len = ft_strlen(line);
@@ -23,11 +23,11 @@ void	join_line_map(char *line, t_game *game)
 		len--;
 	temp[i] = ft_substr(line, 0, len);
 	temp[i + 1] = NULL;
-	free(game->map);
-	game->map = temp;
+	free(ac->g->map);
+	ac->g->map = temp;
 }
 
-int	new_map(char *line, t_game *game)
+int	new_map(char *line, t_access *ac)
 {
 	int	i;
 	int	flag;
@@ -44,8 +44,8 @@ int	new_map(char *line, t_game *game)
 	}
 	if (flag == 1)
 	{
-		game->flag_start_map = 1;
-		join_line_map(line, game);
+		ac->g->flag_start_map = 1;
+		join_line_map(line, ac);
 		return (1);
 	}
 	else

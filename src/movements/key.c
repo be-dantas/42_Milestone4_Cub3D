@@ -1,88 +1,88 @@
 #include "../../includes/cub3d.h"
 
-void	create_image(t_access *access)
+void	create_image(t_access *ac)
 {
-	access->img = mlx_new_image(
-			access->mlx_connection,
+	ac->img = mlx_new_image(
+			ac->mlx_connection,
 			SCREEN_WIDTH,
 			SCREEN_HEIGHT);
-	access->img_pointer = mlx_get_data_addr(
-			access->img,
-			&access->bits_per_pixel,
-			&access->line_len,
-			&access->endian);
+	ac->img_pointer = mlx_get_data_addr(
+			ac->img,
+			&ac->bits_per_pixel,
+			&ac->line_len,
+			&ac->endian);
 }
 
 int	key_config(int keycode, void *param)
 {
-	t_access	*access;
+	t_access	*ac;
 
-	access = (t_access *)param;
+	ac = (t_access *)param;
 	if (keycode == 65307)
-		close_window(access);
+		close_window(ac);
 	if (keycode == 97)
-		access->player->left = 1;
+		ac->p->left = 1;
 	if (keycode == 100)
-		access->player->right = 1;
+		ac->p->right = 1;
 	if (keycode == 119)
-		access->player->up = 1;
+		ac->p->up = 1;
 	if (keycode == 115)
-		access->player->down = 1;
+		ac->p->down = 1;
 	if (keycode == 65363)
-		access->player->arrow_right = 1;
+		ac->p->arrow_right = 1;
 	if (keycode == 65361)
-		access->player->arrow_left = 1;
+		ac->p->arrow_left = 1;
 	return (0);
 }
 
 int	key_release(int keycode, void *param)
 {
-	t_access	*access;
+	t_access	*ac;
 
-	access = (t_access *)param;
+	ac = (t_access *)param;
 	if (keycode == 97)
-		access->player->left = 0;
+		ac->p->left = 0;
 	if (keycode == 100)
-		access->player->right = 0;
+		ac->p->right = 0;
 	if (keycode == 119)
-		access->player->up = 0;
+		ac->p->up = 0;
 	if (keycode == 115)
-		access->player->down = 0;
+		ac->p->down = 0;
 	if (keycode == 65363)
-		access->player->arrow_right = 0;
+		ac->p->arrow_right = 0;
 	if (keycode == 65361)
-		access->player->arrow_left = 0;
+		ac->p->arrow_left = 0;
 	return (0);
 }
 
 int	action(void *param)
 {
-	t_access	*access;
+	t_access	*ac;
 
-	access = (t_access *)param;
-	if (access->player->arrow_left)
-		left_angle(access);
-	if (access->player->arrow_right)
-		right_angle(access);
-	access->player->pos_dx = cos(access->player->pos_ang) * 0.1;
-	access->player->pos_dy = sin(access->player->pos_ang) * 0.1;
-	if (access->player->up)
-		w_m(access);
-	if (access->player->down)
-		s_m(access);
-	if (access->player->left)
-		a_m(access);
-	if (access->player->right)
-		d_m(access);
-	mlx_destroy_image(access->mlx_connection, access->img);
-	create_image(access);
-	frame_update(access);
+	ac = (t_access *)param;
+	if (ac->p->arrow_left)
+		left_angle(ac);
+	if (ac->p->arrow_right)
+		right_angle(ac);
+	ac->p->pos_dx = cos(ac->p->pos_ang) * 0.1;
+	ac->p->pos_dy = sin(ac->p->pos_ang) * 0.1;
+	if (ac->p->up)
+		w_m(ac);
+	if (ac->p->down)
+		s_m(ac);
+	if (ac->p->left)
+		a_m(ac);
+	if (ac->p->right)
+		d_m(ac);
+	mlx_destroy_image(ac->mlx_connection, ac->img);
+	create_image(ac);
+	frame_update(ac);
 	return (0);
 }
 
-void	game_keyboard(t_access *access)
+void	game_keyboard(t_access *ac)
 {
-	mlx_hook(access->mlx_window, 2, 1L << 0, key_config, access);
-	mlx_hook(access->mlx_window, 3, 1L << 1, key_release, access);
-	mlx_loop_hook(access->mlx_connection, action, access);
+	mlx_hook(ac->mlx_window, 2, 1L << 0, key_config, ac);
+	mlx_hook(ac->mlx_window, 3, 1L << 1, key_release, ac);
+	mlx_loop_hook(ac->mlx_connection, action, ac);
 }

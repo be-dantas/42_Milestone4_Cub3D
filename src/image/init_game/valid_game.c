@@ -5,15 +5,15 @@
 
 // }
 
-int	valid_game(t_game *game)
+int	valid_game(t_access *ac)
 {
-	if (!game->tex_no || !game->tex_so
-			|| !game->tex_we || !game->tex_ea
-			|| game->floor_color == -1
-			|| game->ceiling_color == -1
-			|| game->flag_start_map == 0)
+	if (!ac->g->tex_no || !ac->g->tex_so
+			|| !ac->g->tex_we || !ac->g->tex_ea
+			|| ac->g->floor_color == -1
+			|| ac->g->ceiling_color == -1
+			|| ac->g->flag_start_map == 0)
 		return (0);
-	// if (!valid_map(game->map))
+	// if (!valid_map(ac->g->map))
 	// 	return (0);
 	return (1);
 }
