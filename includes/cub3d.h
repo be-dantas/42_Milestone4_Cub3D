@@ -9,8 +9,8 @@
 # include <stdio.h>
 # include <fcntl.h>
 
-# define SCREEN_WIDTH 800
-# define SCREEN_HEIGHT 600
+# define SCREEN_WIDTH 1000
+# define SCREEN_HEIGHT 800
 # define PI 3.1415926535
 # define FOV 60
 # define N_RAYS 1000
@@ -87,5 +87,6 @@ void	d_m(t_access *access);
 int		close_window(t_access *access);
 
 void draw_map(char **map, int i, int j, t_access *access);
+void	create_image(t_access *access);
 
 #endif

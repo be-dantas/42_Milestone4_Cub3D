@@ -3,8 +3,8 @@
 void	init(t_access *access)
 {
 	access->player = malloc(sizeof(t_player));
-	access->player->pos_x = SCREEN_WIDTH / 2;
-	access->player->pos_y = SCREEN_HEIGHT / 2;
+	access->player->pos_x = SCREEN_WIDTH / 4;
+	access->player->pos_y = SCREEN_HEIGHT / 4;
 	access->player->down = 0;
 	access->player->up = 0;
 	access->player->right = 0;
@@ -15,9 +15,8 @@ void	init(t_access *access)
 	access->player->pos_dy = sin(access->player->pos_ang) * 0.01;
 	access->player->pos_ang = 0;
 	access->mlx_connection = mlx_init();
-	access->mlx_window = mlx_new_window(access->mlx_connection, 1920, 1080, "Cub3D");
-	access->img = mlx_new_image(access->mlx_connection, 1920, 1080);
-	access->img_pointer = mlx_get_data_addr(access->img, &access->bits_per_pixel, &access->line_len, &access->endian);
+	access->mlx_window = mlx_new_window(access->mlx_connection, SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D");
+	create_image(access);
 }
 
 int	main(int argc, char **argv)

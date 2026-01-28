@@ -1,6 +1,6 @@
 #include "../../includes/cub3d.h"
 
-void	wall_distance_rays(t_access *access, t_calc *calc, char *map[])
+void	wall_distance_rays(t_access *access, t_calc *calc, char **map)
 {
 	calc->ray_angle = access->player->pos_ang
 		- (FOV * PI / 180.0) / 2 + calc->r * ((FOV * PI / 180.0) / N_RAYS);
