@@ -69,6 +69,14 @@ void	new_pos_x_y(t_access *ac)
 		if (ac->g->map[i][j] == 'N' || ac->g->map[i][j] == 'S'
 			|| ac->g->map[i][j] == 'W' || ac->g->map[i][j] == 'E')
 		{
+			if (ac->g->map[i][j] == 'N')
+				ac->p->pos_ang = PI / 2;
+			if (ac->g->map[i][j] == 'S')
+				ac->p->pos_ang = 3 * PI / 2;
+			if (ac->g->map[i][j] == 'W')
+				ac->p->pos_ang = 2 * PI;
+			if (ac->g->map[i][j] == 'E')
+				ac->p->pos_ang = PI;
 			break ;
 		}
 		i++;
