@@ -3,9 +3,8 @@
 void	init_access(t_access *access)
 {
 	access->mlx_connection = mlx_init();
-	access->mlx_window = mlx_new_window(access->mlx_connection, WIDTH, HEIGHT, "Cub3D");
-	access->img = mlx_new_image(access->mlx_connection, WIDTH, HEIGHT);
-	access->img_pointer = mlx_get_data_addr(access->img, &access->bits_per_pixel, &access->line_len, &access->endian);
+	access->mlx_window = mlx_new_window(access->mlx_connection, SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D");
+	create_image(access);
 }
 
 void	init_player(t_player *player)
@@ -33,10 +32,10 @@ int	main(int argc, char **argv)
 	access.game = &game;
 	game.player = &player;
 	init_game(&game, argv[1]);
-	// init_access(&access);
-	// init_player(&player);
-	// game_keyboard(&access);
-	// mlx_hook(access.mlx_window, 17, 0, close_window, &access);
-	// mlx_loop(access.mlx_connection);
+	init_access(&access);
+	init_player(&player);
+	game_keyboard(&access);
+	mlx_hook(access.mlx_window, 17, 0, close_window, &access);
+	mlx_loop(access.mlx_connection);
 	return (0);
 }

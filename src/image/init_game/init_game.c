@@ -55,6 +55,26 @@ void	new_variable(t_game *game, char *file)
 	close(fd);
 }
 
+void	new_pos_x_y(t_game *game)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (game->map[i])
+	{
+		j = 0;
+		while (!ft_strchr("NSEW", game->map[i][j]))
+			j++;
+		if (game->map[i][j] == 'N' || game->map[i][j] == 'S'
+			|| game->map[i][j] == 'W' || game->map[i][j] == 'E')
+			break ;
+		i++;
+	}
+	game->player->pos_x = j * 64;
+	game->player->pos_y = i * 64;
+}
+
 void	init_game(t_game *game, char *file)
 {
 	game->tex_no = NULL;
@@ -66,25 +86,21 @@ void	init_game(t_game *game, char *file)
 	game->map = ft_calloc(1, sizeof(char *));
 	game->flag_start_map = 0;
 	new_variable(game, file);
+	// valid_game(game);
+	new_pos_x_y(game);
 
 
 
-	printf("%s\n", game->tex_no);
-	printf("%s\n", game->tex_so);
-	printf("%s\n", game->tex_we);
-	printf("%s\n", game->tex_ea);
-	printf("%d\n", game->floor_color);
-	printf("%d\n", game->ceiling_color);
-	int i = 0;
-	while (game->map[i])
-	{
-		printf("%s\n", game->map[i]);
-		i++;
-	}
-
-
-
-
-	//valid_game(game);
-	//new_pos_x_y(game);  preenche a struct player com a posição x e y
+	// printf("%s\n", game->tex_no);
+	// printf("%s\n", game->tex_so);
+	// printf("%s\n", game->tex_we);
+	// printf("%s\n", game->tex_ea);
+	// printf("%d\n", game->floor_color);
+	// printf("%d\n", game->ceiling_color);
+	// int i = 0;
+	// while (game->map[i])
+	// {
+	// 	printf("%s\n", game->map[i]);
+	// 	i++;
+	// }
 }

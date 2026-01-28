@@ -44,7 +44,6 @@ int	new_map(char *line, t_game *game)
 	}
 	if (flag == 1)
 	{
-		//ver se os outros estão preenchidos?
 		game->flag_start_map = 1;
 		join_line_map(line, game);
 		return (1);
