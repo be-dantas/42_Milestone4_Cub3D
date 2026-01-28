@@ -2,14 +2,17 @@
 
 void	put_pixel_player(t_access *access)
 {
-		char *map[] = {
+	char *map[] =
+	{
 		"111111111111111",
-		"100000000000001",
-		"100011000100001",
-		"100011000010101",
-		"100011000011001",
-		"100000000110001",
-		"100010011010001",
+		"100000010000001",
+		"101110010000001",
+		"101011111100001",
+		"101000010000001",
+		"101111011111001",
+		"100000000001001",
+		"101111111100011",
+		"100000100001001",
 		"111111111111111",
 		NULL
 	};
@@ -25,10 +28,6 @@ void	put_pixel_player(t_access *access)
 		draw_map(map, i, 0, access);
 		i++;
 	}
-	px = access->img_pointer + ((int)access->player->pos_y * access->line_len
-			+ (int)access->player->pos_x * (access->bits_per_pixel / 8));
-	*(unsigned int *)px = 0xFFFFFF;
-
 	int r;
 	int k;
 	double ray_angle;
@@ -60,7 +59,6 @@ void	put_pixel_player(t_access *access)
 			px = access->img_pointer + ((int)yy * access->line_len
 					+ (int)xx * (access->bits_per_pixel / 8));
 			*(unsigned int *)px = 0x99FFFF;
-
 			xx += ray_dx;
 			yy += ray_dy;
 			k++;
