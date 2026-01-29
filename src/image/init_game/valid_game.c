@@ -43,6 +43,26 @@
 // 	return (1);
 // }
 
+int	valid_map(char **map, int x, int y)
+{
+	if (x < 0 || y < 0 || !map[y] || x >= (int)ft_strlen(map[y]))
+		return (0);
+	if (map[y][x] == ' ')
+		return (0);
+	if (map[y][x] == '1' || map[y][x] == 'F')
+		return (1);
+	map[y][x] = 'F';
+	if (!valid_map(map, x + 1, y))
+		return (0);
+	if (!valid_map(map, x - 1, y))
+		return (0);
+	if (!valid_map(map, x, y + 1))
+		return (0);
+	if (!valid_map(map, x, y - 1))
+		return (0);
+	return (1);
+}
+
 int	valid_player(t_access *ac)
 {
 	int	i;
@@ -70,12 +90,26 @@ int	valid_player(t_access *ac)
 
 void	valid_game(t_access *ac)
 {
+	char	**map_temp;
+	// int		start_x;
+	// int		start_y;
+
+	map_temp = ft_strdup_array(ac->g->map);
+	// start_x = (int)ac->p->pos_x;
+	// start_y = (int)ac->p->pos_y;
 	if (!ac->g->tex_no || !ac->g->tex_so
 		|| !ac->g->tex_we || !ac->g->tex_ea
 		|| ac->g->floor_color == -1
 		|| ac->g->ceiling_color == -1
 		|| ac->g->flag_start_map == 0)
+	{
+		ft_free_array(map_temp);
 		error_exit(ac, "Error file map\n");
-	else if (!valid_map(ac) || !valid_player(ac))
+	}
+	// else if (!valid_player(ac) || !valid_map(map_temp, start_x, start_y))
+	{
+		ft_free_array(map_temp);
 		error_exit(ac, "Error map\n");
+	}
+	ft_free_array(map_temp);
 }
