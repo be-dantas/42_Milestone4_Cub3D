@@ -80,6 +80,7 @@ typedef struct s_calc
 	int			wall_bottom;
 	int			column_width;
 	int			column_x;
+	int			side;
 }	t_calc;
 
 // image/init_game

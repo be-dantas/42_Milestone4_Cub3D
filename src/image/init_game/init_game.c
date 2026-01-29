@@ -81,8 +81,8 @@ void	new_pos_x_y(t_access *ac)
 		}
 		i++;
 	}
-	ac->p->pos_x = j * 64;
-	ac->p->pos_y = i * 64;
+	ac->p->pos_x = (int)((j + 1) * 64);
+	ac->p->pos_y = (int)((i + 1) * 64);
 }
 
 void	init_game(t_access *ac, char *file)
