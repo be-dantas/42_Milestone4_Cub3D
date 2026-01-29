@@ -5,7 +5,7 @@ int	trate_color(char *color, t_access *ac)
 	char	**split_color;
 	int		r;
 	int		g;
-	int 	b;
+	int		b;
 
 	split_color = ft_split(color, ',');
 	if (!split_color)

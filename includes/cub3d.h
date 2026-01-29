@@ -88,7 +88,7 @@ void	init_game(t_access *ac, char *file);
 int		new_tex(char *line, t_access *ac);
 int		new_color(char *line, t_access *ac);
 int		new_map(char *line, t_access *ac);
-int		valid_game(t_access *ac);
+void	valid_game(t_access *ac);
 
 // image/image_player.c
 void	frame_update(t_access *ac);

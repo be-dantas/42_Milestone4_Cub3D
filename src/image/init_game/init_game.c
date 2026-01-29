@@ -47,7 +47,8 @@ void	new_variable(t_access *ac, char *file)
 		}
 		else
 		{
-			if (!new_tex(line, ac) && !new_color(line, ac) && !new_map(line, ac))
+			if (!new_tex(line, ac) && !new_color(line, ac)
+				&& !new_map(line, ac))
 				error_exit(ac, "Error file map\n");
 		}
 		free(line);
@@ -55,12 +56,10 @@ void	new_variable(t_access *ac, char *file)
 	close(fd);
 }
 
-void	new_pos_x_y(t_access *ac)
+void	new_pos_x_y(t_access *ac, int i)
 {
-	int	i;
 	int	j;
 
-	i = 0;
 	while (ac->g->map[i])
 	{
 		j = 0;
@@ -69,13 +68,13 @@ void	new_pos_x_y(t_access *ac)
 		if (ac->g->map[i][j] == 'N' || ac->g->map[i][j] == 'S'
 			|| ac->g->map[i][j] == 'W' || ac->g->map[i][j] == 'E')
 		{
-			if (ac->g->map[i][j] == 'N')
-				ac->p->pos_ang = PI / 2;
 			if (ac->g->map[i][j] == 'S')
+				ac->p->pos_ang = PI / 2;
+			if (ac->g->map[i][j] == 'N')
 				ac->p->pos_ang = 3 * PI / 2;
-			if (ac->g->map[i][j] == 'W')
-				ac->p->pos_ang = 2 * PI;
 			if (ac->g->map[i][j] == 'E')
+				ac->p->pos_ang = 2 * PI;
+			if (ac->g->map[i][j] == 'W')
 				ac->p->pos_ang = PI;
 			break ;
 		}
@@ -96,21 +95,6 @@ void	init_game(t_access *ac, char *file)
 	ac->g->map = ft_calloc(1, sizeof(char *));
 	ac->g->flag_start_map = 0;
 	new_variable(ac, file);
-	// valid_game(ac);
-	new_pos_x_y(ac);
-
-
-
-	// printf("%s\n", game->tex_no);
-	// printf("%s\n", game->tex_so);
-	// printf("%s\n", game->tex_we);
-	// printf("%s\n", game->tex_ea);
-	// printf("%d\n", game->floor_color);
-	// printf("%d\n", game->ceiling_color);
-	// int i = 0;
-	// while (game->map[i])
-	// {
-	// 	printf("%s\n", game->map[i]);
-	// 	i++;
-	// }
+	valid_game(ac);
+	new_pos_x_y(ac, 0);
 }
