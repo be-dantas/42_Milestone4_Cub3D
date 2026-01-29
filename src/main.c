@@ -15,7 +15,6 @@ void	init_player(t_access *ac)
 	ac->p->right = 0;
 	ac->p->arrow_left = 0;
 	ac->p->arrow_right = 0;
-	ac->p->pos_ang = 0;
 	ac->p->pos_dx = cos(ac->p->pos_ang) * 0.01;
 	ac->p->pos_dy = sin(ac->p->pos_ang) * 0.01;
 }
