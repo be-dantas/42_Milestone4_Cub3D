@@ -2,84 +2,65 @@
 
 void	wall_distance_rays(t_access *ac, t_calc *calc, char **map)
 {
-	double	side_dist_x;
-	double	side_dist_y;
-	double	delta_dist_x;
-	double	delta_dist_y;
-	int		step_x;
-	int		step_y;
-	int		hit;
-
-	// 1️⃣ Ray angle & direction
 	calc->ray_angle = ac->p->pos_ang
 		- (FOV * PI / 180.0) / 2
 		+ calc->r * ((FOV * PI / 180.0) / N_RAYS);
-
 	calc->ray_dx = cos(calc->ray_angle);
 	calc->ray_dy = sin(calc->ray_angle);
-
-	// 2️⃣ Player position in map coordinates
 	calc->map_x = (int)(ac->p->pos_x / CUB_SIZE);
 	calc->map_y = (int)(ac->p->pos_y / CUB_SIZE);
-
-	// 3️⃣ Distance to next grid line
-	delta_dist_x = fabs(CUB_SIZE / calc->ray_dx);
-	delta_dist_y = fabs(CUB_SIZE / calc->ray_dy);
-
-	// 4️⃣ Step direction and initial side distances
+	calc->delta_dist_x = fabs(CUB_SIZE / calc->ray_dx);
+	calc->delta_dist_y = fabs(CUB_SIZE / calc->ray_dy);
 	if (calc->ray_dx < 0)
 	{
-		step_x = -1;
-		side_dist_x = (ac->p->pos_x - calc->map_x * CUB_SIZE)
+		calc->step_x = -1;
+		calc->side_dist_x = (ac->p->pos_x - calc->map_x * CUB_SIZE)
 			/ fabs(calc->ray_dx);
 	}
 	else
 	{
-		step_x = 1;
-		side_dist_x = ((calc->map_x + 1) * CUB_SIZE - ac->p->pos_x)
+		calc->step_x = 1;
+		calc->side_dist_x = ((calc->map_x + 1) * CUB_SIZE - ac->p->pos_x)
 			/ fabs(calc->ray_dx);
 	}
-
 	if (calc->ray_dy < 0)
 	{
-		step_y = -1;
-		side_dist_y = (ac->p->pos_y - calc->map_y * CUB_SIZE)
+		calc->step_y = -1;
+		calc->side_dist_y = (ac->p->pos_y - calc->map_y * CUB_SIZE)
 			/ fabs(calc->ray_dy);
 	}
 	else
 	{
-		step_y = 1;
-		side_dist_y = ((calc->map_y + 1) * CUB_SIZE - ac->p->pos_y)
+		calc->step_y = 1;
+		calc->side_dist_y = ((calc->map_y + 1) * CUB_SIZE - ac->p->pos_y)
 			/ fabs(calc->ray_dy);
 	}
-
-	// 5️⃣ DDA loop
-	hit = 0;
-	while (!hit)
+	calc->hit = 0;
+	while (!calc->hit)
 	{
-		if (side_dist_x < side_dist_y)
+		if (calc->side_dist_x < calc->side_dist_y)
 		{
-			side_dist_x += delta_dist_x;
-			calc->map_x += step_x;
+			calc->side_dist_x += calc->delta_dist_x;
+			calc->map_x += calc->step_x;
 			calc->side = 0; // vertical wall
 		}
 		else
 		{
-			side_dist_y += delta_dist_y;
-			calc->map_y += step_y;
+			calc->side_dist_y += calc->delta_dist_y;
+			calc->map_y += calc->step_y;
 			calc->side = 1; // horizontal wall
 		}
 		if (map[calc->map_y][calc->map_x] == '1')
-			hit = 1;
+			calc->hit = 1;
 	}
-
-	// 6️⃣ Final perpendicular distance (NO fisheye)
 	if (calc->side == 0)
-		calc->dist = side_dist_x - delta_dist_x;
+		calc->dist = calc->side_dist_x - calc->delta_dist_x;
 	else
-		calc->dist = side_dist_y - delta_dist_y;
-}
+		calc->dist = calc->side_dist_y - calc->delta_dist_y;
+	calc->angle_diff = calc->ray_angle - ac->p->pos_ang;
+	calc->dist = calc->dist * cos(calc->angle_diff);
 
+}
 
 void	wall_perspective_calc(t_calc *calc)
 {
@@ -103,6 +84,7 @@ void	draw_obstacles(t_access *ac, t_calc *calc)
 
 	x = calc->column_x;
 	y = calc->wall_top;
+
 	while (x < calc->column_x + calc->column_width)
 	{
 		if (x < 0 || x >= SCREEN_WIDTH)
@@ -112,10 +94,20 @@ void	draw_obstacles(t_access *ac, t_calc *calc)
 		}
 		while (y < calc->wall_bottom)
 		{
-			calc->px = ac->img_pointer
-				+ (y * ac->line_len
-					+ x * (ac->bits_per_pixel / 8));
-			*(unsigned int *)calc->px = 0x99FF9F;
+			if (calc->side == 1)
+			{
+				calc->px = ac->img_pointer
+					+ (y * ac->line_len
+						+ x * (ac->bits_per_pixel / 8));
+				*(unsigned int *)calc->px = 0x99FF9F;
+			}
+			else if (calc->side == 0)
+			{
+				calc->px = ac->img_pointer
+					+ (y * ac->line_len
+						+ x * (ac->bits_per_pixel / 8));
+				*(unsigned int *)calc->px = 0x9909AA;
+			}
 			y++;
 		}
 		x++;
@@ -141,6 +133,37 @@ void	put_pixel_player(t_access *ac)
 
 void	frame_update(t_access *ac)
 {
+	char *px;
+
+	int xxx = 0;
+	int yyy = 0;
+	while (yyy < SCREEN_HEIGHT / 2)
+	{
+		xxx = 0;
+		while (xxx < SCREEN_WIDTH)
+		{
+			px = ac->img_pointer
+				+ (yyy * ac->line_len
+					+ xxx * (ac->bits_per_pixel / 8));
+			*(unsigned int *)px = ac->g->ceiling_color;
+			xxx++;
+		}
+		yyy++;
+	}
+	yyy = SCREEN_HEIGHT / 2;
+	while (yyy < SCREEN_HEIGHT)
+	{
+		xxx = 0;
+		while (xxx < SCREEN_WIDTH)
+		{
+			px = ac->img_pointer
+				+ (yyy * ac->line_len
+					+ xxx * (ac->bits_per_pixel / 8));
+			*(unsigned int *)px = ac->g->floor_color;
+			xxx++;
+		}
+		yyy++;
+	}
 	put_pixel_player(ac);
 	mlx_put_image_to_window(ac->mlx_connection,
 		ac->mlx_window, ac->img, 0, 0);
