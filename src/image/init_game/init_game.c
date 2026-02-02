@@ -30,26 +30,28 @@ int	empty_line(char *line)
 	return (1);
 }
 
-void	new_variable(t_access *ac, char *file)
+void	new_variable(t_access *ac, int fd)
 {
-	int		fd;
 	char	*line;
 
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-		error_exit(ac, "Error opening file\n");
 	while ((line = get_next_line(fd)))
 	{
 		if (empty_line(line))
 		{
 			if (ac->g->flag_start_map)
+			{
+				free(line);
 				error_exit(ac, "Error file map\n");
+			}
 		}
 		else
 		{
 			if (!new_tex(line, ac) && !new_color(line, ac)
 				&& !new_map(line, ac))
-					error_exit(ac, "Error file map\n");
+			{
+				free(line);
+				error_exit(ac, "Error file map\n");
+			}
 		}
 		free(line);
 	}
@@ -86,6 +88,8 @@ void	new_pos_x_y(t_access *ac, int i)
 
 void	init_game(t_access *ac, char *file)
 {
+	int	fd;
+
 	ac->g->tex_no = NULL;
 	ac->g->tex_so = NULL;
 	ac->g->tex_we = NULL;
@@ -94,7 +98,10 @@ void	init_game(t_access *ac, char *file)
 	ac->g->ceiling_color = -1;
 	ac->g->map = ft_calloc(1, sizeof(char *));
 	ac->g->flag_start_map = 0;
-	new_variable(ac, file);
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		error_exit(ac, "Error opening file\n");
+	new_variable(ac, fd);
 	valid_game(ac);
 	new_pos_x_y(ac, 0);
 }

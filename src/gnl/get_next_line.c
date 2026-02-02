@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wedos-sa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:00:01 by wedos-sa          #+#    #+#             */
-/*   Updated: 2025/08/09 10:39:16 by wedos-sa         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:06:39 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,13 @@ char	*finalize_line(char **stash, char **buffer)
 	ft_strlcpy(res, *stash, count_stash(*stash) + 1);
 	temp = ft_stralloc(*stash + count_stash(*stash));
 	free(*stash);
-	*stash = temp;
+	if (temp && temp[0] == '\0')
+	{
+		free(temp);
+		*stash = NULL;
+	}
+	else
+		*stash = temp;
 	return (res);
 }
 
