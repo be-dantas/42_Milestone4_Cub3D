@@ -49,7 +49,7 @@ void	new_variable(t_access *ac, char *file)
 		{
 			if (!new_tex(line, ac) && !new_color(line, ac)
 				&& !new_map(line, ac))
-				error_exit(ac, "Error file map\n");
+					error_exit(ac, "Error file map\n");
 		}
 		free(line);
 	}
