@@ -1,6 +1,6 @@
 #include "../../../includes/cub3d.h"
 
-int	valid_player(char **map)
+static int	valid_player(char **map)
 {
 	int	i;
 	int	j;
@@ -32,7 +32,7 @@ void	valid_game(t_access *ac)
 		|| ac->g->floor_color == -1
 		|| ac->g->ceiling_color == -1
 		|| ac->g->flag_start_map == 0)
-		error_exit(ac, "Error file map\n");
+		error_exit(ac, "Error file map\n", NULL);
 	else if (!valid_player(ac->g->map) || !valid_map(ac->g->map))
-		error_exit(ac, "Error map\n");
+		error_exit(ac, "Error map\n", NULL);
 }

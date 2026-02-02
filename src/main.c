@@ -1,6 +1,6 @@
 #include "../includes/cub3d.h"
 
-void	init_access(t_access *ac)
+static void	init_access(t_access *ac)
 {
 	ac->mlx_connection = mlx_init();
 	ac->mlx_window = mlx_new_window(ac->mlx_connection,
@@ -8,7 +8,7 @@ void	init_access(t_access *ac)
 	create_image(ac);
 }
 
-void	init_player(t_access *ac)
+static void	init_player(t_access *ac)
 {
 	ac->p->up = 0;
 	ac->p->down = 0;
@@ -18,6 +18,7 @@ void	init_player(t_access *ac)
 	ac->p->arrow_right = 0;
 	ac->p->pos_dx = cos(ac->p->pos_ang) * 0.20;
 	ac->p->pos_dy = sin(ac->p->pos_ang) * 0.20;
+	ac->p->shift = 0;
 	ac->p->move_speed = 3;
 }
 

@@ -13,7 +13,7 @@ void	create_image(t_access *ac)
 			&ac->endian);
 }
 
-int	key_config(int keycode, void *param)
+static int	key_config(int keycode, void *param)
 {
 	t_access	*ac;
 
@@ -37,7 +37,7 @@ int	key_config(int keycode, void *param)
 	return (0);
 }
 
-int	key_release(int keycode, void *param)
+static int	key_release(int keycode, void *param)
 {
 	t_access	*ac;
 
@@ -59,7 +59,7 @@ int	key_release(int keycode, void *param)
 	return (0);
 }
 
-int	action(void *param)
+static int	action(void *param)
 {
 	t_access	*ac;
 

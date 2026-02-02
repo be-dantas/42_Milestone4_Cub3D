@@ -1,7 +1,9 @@
 #include "../../../includes/cub3d.h"
 
-void	error_exit(t_access *ac, char *str)
+void	error_exit(t_access *ac, char *str, char *line)
 {
+	if (line)
+		free(line);
 	if (ac->g->tex_no)
 		free(ac->g->tex_no);
 	if (ac->g->tex_so)
@@ -16,7 +18,7 @@ void	error_exit(t_access *ac, char *str)
 	exit(EXIT_FAILURE);
 }
 
-int	empty_line(char *line)
+static int	empty_line(char *line)
 {
 	int	i;
 
@@ -30,7 +32,7 @@ int	empty_line(char *line)
 	return (1);
 }
 
-void	new_variable(t_access *ac, int fd)
+static void	new_variable(t_access *ac, int fd)
 {
 	char	*line;
 
@@ -39,26 +41,20 @@ void	new_variable(t_access *ac, int fd)
 		if (empty_line(line))
 		{
 			if (ac->g->flag_start_map)
-			{
-				free(line);
-				error_exit(ac, "Error file map\n");
-			}
+				error_exit(ac, "Error file map\n", line);
 		}
 		else
 		{
 			if (!new_tex(line, ac) && !new_color(line, ac)
 				&& !new_map(line, ac))
-			{
-				free(line);
-				error_exit(ac, "Error file map\n");
-			}
+				error_exit(ac, "Error file map\n", line);
 		}
 		free(line);
 	}
 	close(fd);
 }
 
-void	new_pos_x_y(t_access *ac, int i)
+static void	new_pos_x_y(t_access *ac, int i)
 {
 	int	j;
 
@@ -100,7 +96,7 @@ void	init_game(t_access *ac, char *file)
 	ac->g->flag_start_map = 0;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		error_exit(ac, "Error opening file\n");
+		error_exit(ac, "Error opening file\n", NULL);
 	new_variable(ac, fd);
 	valid_game(ac);
 	new_pos_x_y(ac, 0);

@@ -1,12 +1,12 @@
 #include "../../../includes/cub3d.h"
 
-int	new_tex_utils(char *line, char **var, t_access *ac)
+static int	new_tex_utils(char *line, char **var, t_access *ac)
 {
 	if (*var)
-		error_exit(ac, "Error file map\n");
+		error_exit(ac, "Error file map\n", line);
 	*var = ft_substr(line, 3, ft_strlen(line) - 4);
 	if (!*var)
-		error_exit(ac, "Error malloc\n");
+		error_exit(ac, "Error malloc\n", line);
 	return (1);
 }
 

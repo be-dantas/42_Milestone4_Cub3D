@@ -1,6 +1,6 @@
 #include "../../../includes/cub3d.h"
 
-void	join_line_map(char *line, t_access *ac)
+static void	join_line_map(char *line, t_access *ac)
 {
 	int		i;
 	int		len;
@@ -12,7 +12,7 @@ void	join_line_map(char *line, t_access *ac)
 	len_array = ft_strlen_array(ac->g->map);
 	temp = malloc(sizeof(char *) * (len_array + 2));
 	if (!temp)
-		error_exit(ac, "Error malloc\n");
+		error_exit(ac, "Error malloc\n", line);
 	while (ac->g->map[i])
 	{
 		temp[i] = ac->g->map[i];

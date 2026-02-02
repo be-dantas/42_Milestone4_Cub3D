@@ -1,6 +1,6 @@
 #include "../../../includes/cub3d.h"
 
-int	is_open(char **map, int i, int j)
+static int	is_open(char **map, int i, int j)
 {
 	if (i < 0 || !map[i])
 		return (1);
@@ -11,7 +11,7 @@ int	is_open(char **map, int i, int j)
 	return (0);
 }
 
-int	check_cell(char **map, int i, int j)
+static int	check_cell(char **map, int i, int j)
 {
 	if (!ft_strchr("0NSEW", map[i][j]))
 		return (1);
@@ -27,7 +27,7 @@ int	check_cell(char **map, int i, int j)
 	return (1);
 }
 
-int	only_this_char(char *line)
+static int	only_this_char(char *line)
 {
 	int	i;
 

@@ -94,7 +94,7 @@ typedef struct s_calc
 }	t_calc;
 
 // image/init_game
-void	error_exit(t_access *ac, char *str);
+void	error_exit(t_access *ac, char *str, char *line);
 void	init_game(t_access *ac, char *file);
 int		new_tex(char *line, t_access *ac);
 int		new_color(char *line, t_access *ac);

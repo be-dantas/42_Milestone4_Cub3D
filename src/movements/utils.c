@@ -1,6 +1,6 @@
 #include "../../includes/cub3d.h"
 
-void	free_close_window(t_access *ac)
+static void	free_close_window(t_access *ac)
 {
 	if (ac->g->tex_no)
 		free(ac->g->tex_no);
