@@ -65,6 +65,14 @@ typedef struct s_player
 
 typedef struct s_calc
 {
+	double		angle_diff;
+	double		side_dist_x;
+	double		side_dist_y;
+	double		delta_dist_x;
+	double		delta_dist_y;
+	int			step_x;
+	int			step_y;
+	int			hit;
 	char		*px;
 	int			r;
 	double		ray_angle;

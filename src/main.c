@@ -25,13 +25,13 @@ int	main(int argc, char **argv)
 	t_access	ac;
 	t_game		g;
 	t_player	p;
-	// t_calc		calc;
+	//t_calc		calc;
 
 	if (argc != 2)
 		return (1);
 	ac.g = &g;
 	ac.p = &p;
-	// ac.c = &c;
+	//ac.calc = &calc;
 	init_game(&ac, argv[1]);
 	init_access(&ac);
 	init_player(&ac);

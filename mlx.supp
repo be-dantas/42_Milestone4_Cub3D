@@ -1,0 +1,34 @@
+{
+   mlx_x11_leak
+   Memcheck:Leak
+   ...
+   fun:XOpenDisplay
+}
+
+{
+   mlx_x11_leak_2
+   Memcheck:Leak
+   ...
+   fun:XInitThreads
+}
+
+{
+   mlx_x11_leak_3
+   Memcheck:Leak
+   ...
+   fun:XCreatePixmap
+}
+
+{
+   mlx_x11_leak_4
+   Memcheck:Leak
+   ...
+   fun:XCreateGC
+}
+
+{
+   mlx_x11_leak_5
+   Memcheck:Leak
+   ...
+   fun:XCreateWindow
+}
