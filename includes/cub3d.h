@@ -143,6 +143,7 @@ typedef struct s_calc
 	int			column_width;
 	int			column_x;
 	int			side;
+	double		raw_dist;
 }	t_calc;
 
 // image/init_game

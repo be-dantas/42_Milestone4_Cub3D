@@ -69,11 +69,11 @@ void	wall_distance_rays(t_access *ac, t_calc *calc, char **map)
 	calc->hit = 0;
 	distance_wall_xy(calc, map);
 	if (calc->side == 0)
-		calc->dist = calc->side_dist_x - calc->delta_dist_x;
+		calc->raw_dist = calc->side_dist_x - calc->delta_dist_x;
 	else
-		calc->dist = calc->side_dist_y - calc->delta_dist_y;
+		calc->raw_dist = calc->side_dist_y - calc->delta_dist_y;
 	calc->angle_diff = calc->ray_angle - ac->p->pos_ang;
-	calc->dist = calc->dist * cos(calc->angle_diff);
+	calc->dist = calc->raw_dist * cos(calc->angle_diff);
 }
 
 void	wall_perspective_calc(t_calc *calc)
@@ -91,63 +91,98 @@ void	wall_perspective_calc(t_calc *calc)
 	calc->column_x = calc->r * calc->column_width;
 }
 
-static void	coloring_obstacles(t_access *ac, int x, int y, t_calc *calc)
+static void coloring_obstacles(t_access *ac, int x, int y, t_calc *calc)
 {
-	double	wall_x;
-	int		tex_x;
-	int		tex_y;
-	int		d;
-	int		color;
-	char	*px;
+    double wall_x;
+    int tex_x, tex_y, d, color;
+    char *px;
 
-	/* 1️⃣ calcula onde o raio bateu na parede */
-	if (calc->side == 1) // horizontal
-		wall_x = ac->p->pos_x / CUB_SIZE
-			+ calc->dist * calc->ray_dx / CUB_SIZE;
-	else // vertical
-		wall_x = ac->p->pos_y / CUB_SIZE
-			+ calc->dist * calc->ray_dy / CUB_SIZE;
+    // 1️⃣ calcula onde o raio bateu na parede
+    if (calc->side == 1) // horizontal
+        wall_x = ac->p->pos_x / CUB_SIZE + calc->raw_dist * calc->ray_dx / CUB_SIZE;
+    else // vertical
+        wall_x = ac->p->pos_y / CUB_SIZE + calc->raw_dist * calc->ray_dy / CUB_SIZE;
+    wall_x -= floor(wall_x); // normaliza [0,1]
 
-	wall_x -= floor(wall_x); // NORMALIZA [0,1]
+    while (y < calc->wall_bottom)
+    {
+        d = y * 256 - SCREEN_HEIGHT * 128 + calc->wall_height * 128;
 
-	/* 2️⃣ escolhe tex_x conforme a textura */
-	if (calc->side == 1)
-		tex_x = (int)(wall_x * ac->xpm_no->width);
-	else
-		tex_x = (int)(wall_x * ac->xpm_so->width);
+        // 2️⃣ escolhe textura e calcula tex_x/tex_y
+        if (calc->side == 1) // horizontal
+        {
+            if (calc->ray_dy > 0) // sul
+            {
+                tex_x = (int)(wall_x * ac->xpm_so->width);
+                if (calc->ray_dy < 0) tex_x = ac->xpm_so->width - tex_x - 1; // espelhamento
+                tex_y = ((d * ac->xpm_so->height) / calc->wall_height) / 256;
 
-	/* 3️⃣ espelhamento obrigatório */
-	if (calc->side == 0 && calc->ray_dx > 0)
-		tex_x = ac->xpm_so->width - tex_x - 1;
-	if (calc->side == 1 && calc->ray_dy < 0)
-		tex_x = ac->xpm_no->width - tex_x - 1;
+                if (tex_y < 0) tex_y = 0;
+                if (tex_y >= ac->xpm_so->height) tex_y = ac->xpm_so->height - 1;
+                if (tex_x < 0) tex_x = 0;
+                if (tex_x >= ac->xpm_so->width) tex_x = ac->xpm_so->width - 1;
 
-	while (y < calc->wall_bottom)
-	{
-		d = y * 256 - SCREEN_HEIGHT * 128 + calc->wall_height * 128;
+                color = *(int *)(ac->xpm_so->img_pointer
+                    + tex_y * ac->xpm_so->line_len
+                    + tex_x * (ac->xpm_so->bits_per_pixel / 8));
+            }
+            else // norte
+            {
+                tex_x = (int)(wall_x * ac->xpm_no->width);
+                if (calc->ray_dy < 0) tex_x = ac->xpm_no->width - tex_x - 1; // espelhamento
+                tex_y = ((d * ac->xpm_no->height) / calc->wall_height) / 256;
 
-		if (calc->side == 1)
-		{
-			tex_y = ((d * ac->xpm_no->height) / calc->wall_height) / 256;
-			color = *(int *)(ac->xpm_no->img_pointer
-				+ tex_y * ac->xpm_no->line_len
-				+ tex_x * (ac->xpm_no->bits_per_pixel / 8));
-		}
-		else
-		{
-			tex_y = ((d * ac->xpm_so->height) / calc->wall_height) / 256;
-			color = *(int *)(ac->xpm_so->img_pointer
-				+ tex_y * ac->xpm_so->line_len
-				+ tex_x * (ac->xpm_so->bits_per_pixel / 8));
-		}
+                if (tex_y < 0) tex_y = 0;
+                if (tex_y >= ac->xpm_no->height) tex_y = ac->xpm_no->height - 1;
+                if (tex_x < 0) tex_x = 0;
+                if (tex_x >= ac->xpm_no->width) tex_x = ac->xpm_no->width - 1;
 
-		px = ac->img_pointer
-			+ y * ac->line_len
-			+ x * (ac->bits_per_pixel / 8);
-		*(int *)px = color;
-		y++;
-	}
+                color = *(int *)(ac->xpm_no->img_pointer
+                    + tex_y * ac->xpm_no->line_len
+                    + tex_x * (ac->xpm_no->bits_per_pixel / 8));
+            }
+        }
+        else // vertical
+        {
+            if (calc->ray_dx > 0) // leste
+            {
+                tex_x = (int)(wall_x * ac->xpm_ea->width);
+                if (calc->ray_dx < 0) tex_x = ac->xpm_ea->width - tex_x - 1; // espelhamento
+                tex_y = ((d * ac->xpm_ea->height) / calc->wall_height) / 256;
+
+                if (tex_y < 0) tex_y = 0;
+                if (tex_y >= ac->xpm_ea->height) tex_y = ac->xpm_ea->height - 1;
+                if (tex_x < 0) tex_x = 0;
+                if (tex_x >= ac->xpm_ea->width) tex_x = ac->xpm_ea->width - 1;
+
+                color = *(int *)(ac->xpm_ea->img_pointer
+                    + tex_y * ac->xpm_ea->line_len
+                    + tex_x * (ac->xpm_ea->bits_per_pixel / 8));
+            }
+            else // oeste
+            {
+                tex_x = (int)(wall_x * ac->xpm_we->width);
+                if (calc->ray_dx < 0) tex_x = ac->xpm_we->width - tex_x - 1; // espelhamento
+                tex_y = ((d * ac->xpm_we->height) / calc->wall_height) / 256;
+
+                if (tex_y < 0) tex_y = 0;
+                if (tex_y >= ac->xpm_we->height) tex_y = ac->xpm_we->height - 1;
+                if (tex_x < 0) tex_x = 0;
+                if (tex_x >= ac->xpm_we->width) tex_x = ac->xpm_we->width - 1;
+
+                color = *(int *)(ac->xpm_we->img_pointer
+                    + tex_y * ac->xpm_we->line_len
+                    + tex_x * (ac->xpm_we->bits_per_pixel / 8));
+            }
+        }
+
+        // 3️⃣ escreve no framebuffer
+        px = ac->img_pointer + y * ac->line_len + x * (ac->bits_per_pixel / 8);
+        *(int *)px = color;
+        y++;
+    }
 }
+
 
 // static void	coloring_obstacles(t_access *ac, int x, int y, t_calc *calc)
 // {
