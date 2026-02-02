@@ -93,23 +93,146 @@ void	wall_perspective_calc(t_calc *calc)
 
 static void	coloring_obstacles(t_access *ac, int x, int y, t_calc *calc)
 {
+	double	wall_x;
+	int		tex_x;
+	int		tex_y;
+	int		d;
+	int		color;
+	char	*px;
+
+	/* 1️⃣ calcula onde o raio bateu na parede */
+	if (calc->side == 1) // horizontal
+		wall_x = ac->p->pos_x / CUB_SIZE
+			+ calc->dist * calc->ray_dx / CUB_SIZE;
+	else // vertical
+		wall_x = ac->p->pos_y / CUB_SIZE
+			+ calc->dist * calc->ray_dy / CUB_SIZE;
+
+	wall_x -= floor(wall_x); // NORMALIZA [0,1]
+
+	/* 2️⃣ escolhe tex_x conforme a textura */
+	if (calc->side == 1)
+		tex_x = (int)(wall_x * ac->xpm_no->width);
+	else
+		tex_x = (int)(wall_x * ac->xpm_so->width);
+
+	/* 3️⃣ espelhamento obrigatório */
+	if (calc->side == 0 && calc->ray_dx > 0)
+		tex_x = ac->xpm_so->width - tex_x - 1;
+	if (calc->side == 1 && calc->ray_dy < 0)
+		tex_x = ac->xpm_no->width - tex_x - 1;
+
 	while (y < calc->wall_bottom)
 	{
+		d = y * 256 - SCREEN_HEIGHT * 128 + calc->wall_height * 128;
+
 		if (calc->side == 1)
 		{
-			calc->px = ac->img_pointer + (y * ac->line_len
-					+ x * (ac->bits_per_pixel / 8));
-			*(unsigned int *)calc->px = 0x99FF9F;
+			tex_y = ((d * ac->xpm_no->height) / calc->wall_height) / 256;
+			color = *(int *)(ac->xpm_no->img_pointer
+				+ tex_y * ac->xpm_no->line_len
+				+ tex_x * (ac->xpm_no->bits_per_pixel / 8));
 		}
-		else if (calc->side == 0)
+		else
 		{
-			calc->px = ac->img_pointer + (y * ac->line_len
-					+ x * (ac->bits_per_pixel / 8));
-			*(unsigned int *)calc->px = 0x9909AA;
+			tex_y = ((d * ac->xpm_so->height) / calc->wall_height) / 256;
+			color = *(int *)(ac->xpm_so->img_pointer
+				+ tex_y * ac->xpm_so->line_len
+				+ tex_x * (ac->xpm_so->bits_per_pixel / 8));
 		}
+
+		px = ac->img_pointer
+			+ y * ac->line_len
+			+ x * (ac->bits_per_pixel / 8);
+		*(int *)px = color;
 		y++;
 	}
 }
+
+// static void	coloring_obstacles(t_access *ac, int x, int y, t_calc *calc)
+// {
+// 	double	wall_x;
+// 	int		tex_x;
+// 	int		tex_y;
+// 	int		d;
+// 	int		color;
+// 	char	*px;
+
+// 	if (calc->side == 1)
+// 		wall_x = ac->p->pos_y / CUB_SIZE + calc->dist * calc->ray_dy / CUB_SIZE;
+// 	else
+// 		wall_x = ac->p->pos_x / CUB_SIZE + calc->dist * calc->ray_dx / CUB_SIZE;
+// 	tex_x = (int)(wall_x * ac->xpm_no->width);
+// 	while (y < calc->wall_bottom)
+// 	{
+// 		if (calc->side == 1)//norte (to inventando)
+// 		{
+// 			//wall_x = ac->p->pos_y / CUB_SIZE + calc->dist * calc->ray_dy / CUB_SIZE;
+// 			d = y * 256 - SCREEN_HEIGHT * 128 + calc->wall_height * 128;
+// 			tex_y = ((d * ac->xpm_no->height) / calc->wall_height) / 256;
+// 			color = *(int *)(ac->xpm_no->img_pointer + y * ac->xpm_no->line_len + x * (ac->xpm_no->bits_per_pixel / 8));
+// 			px = ac->img_pointer + (y * ac->line_len + x * (ac->bits_per_pixel / 8));
+// 			*(int *)px = color;
+// 			// calc->px = ac->img_pointer + (y * ac->line_len
+// 			// 		+ x * (ac->bits_per_pixel / 8));
+// 			// *(unsigned int *)calc->px = 0x99FF9F;
+// 		}
+// 		else if (calc->side == 0)
+// 		{
+// 			// wall_x = ac->p->pos_x / CUB_SIZE + calc->dist * calc->ray_dx / CUB_SIZE;
+// 			d = y * 256 - SCREEN_HEIGHT * 128 + calc->wall_height * 128;
+// 			tex_y = ((d * ac->xpm_so->height) / calc->wall_height) / 256;
+// 			color = *(int *)(ac->xpm_so->img_pointer + y * ac->xpm_so->line_len + x * (ac->xpm_so->bits_per_pixel / 8));
+// 			px = ac->img_pointer + (y * ac->line_len + x * (ac->bits_per_pixel / 8));
+// 			*(int *)px = color;
+// 			// calc->px = ac->img_pointer + (y * ac->line_len
+// 			// 		+ x * (ac->bits_per_pixel / 8));
+// 			// *(unsigned int *)calc->px = 0x9909AA;
+// 		}
+// 		y++;
+// 	}
+// }
+// static void coloring_obstacles(t_access *ac, int x, int y, t_calc *calc)
+// {
+//     t_xpm   *tex;
+//     double  wall_x;
+//     int     tex_x;
+//     int     tex_y;
+//     int     d;
+//     int     color;
+//     char    *px;
+
+//     tex = (calc->side == 1) ? ac->xpm_no : ac->xpm_so;
+
+//     if (calc->side == 0)
+//         wall_x = ac->p->pos_y / CUB_SIZE
+//             + calc->dist * calc->ray_dy / CUB_SIZE;
+//     else
+//         wall_x = ac->p->pos_x / CUB_SIZE
+//             + calc->dist * calc->ray_dx / CUB_SIZE;
+
+//     wall_x -= floor(wall_x);
+//     tex_x = (int)(wall_x * tex->width);
+
+//     if (calc->side == 0 && calc->ray_dx > 0)
+//         tex_x = tex->width - tex_x - 1;
+//     if (calc->side == 1 && calc->ray_dy < 0)
+//         tex_x = tex->width - tex_x - 1;
+
+//     while (y < calc->wall_bottom)
+//     {
+//         d = y * 256 - SCREEN_HEIGHT * 128 + calc->wall_height * 128;
+//         tex_y = ((d * tex->height) / calc->wall_height) / 256;
+
+//         color = get_tex_pixel(tex, tex_x, tex_y);
+//         px = ac->img_pointer
+//             + y * ac->line_len
+//             + x * (ac->bits_per_pixel / 8);
+//         *(int *)px = color;
+//         y++;
+//     }
+// }
+
 
 void	draw_obstacles(t_access *ac, t_calc *calc)
 {

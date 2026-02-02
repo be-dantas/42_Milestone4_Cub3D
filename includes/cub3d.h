@@ -21,6 +21,10 @@ typedef struct s_game 	t_game;
 typedef struct s_player	t_player;
 typedef struct s_calc 	t_calc;
 typedef struct s_access t_access;
+typedef struct s_xpm_no	t_xpm_no;
+typedef struct s_xpm_we	t_xpm_we;
+typedef struct s_xpm_ea	t_xpm_ea;
+typedef struct s_xpm_so	t_xpm_so;
 
 typedef struct s_access
 {
@@ -34,7 +38,55 @@ typedef struct s_access
 	t_game		*g;
 	t_player	*p;
 	t_calc		*calc;
+	t_xpm_no	*xpm_no;
+	t_xpm_so	*xpm_so;
+	t_xpm_ea	*xpm_ea;
+	t_xpm_we	*xpm_we;
 }	t_access;
+
+typedef struct s_xpm_ea
+{
+	void	*img;
+	int		width;
+	int		height;
+	int		bits_per_pixel;
+	int		line_len;
+	int		endian;
+	char	*img_pointer;
+}	t_xpm_ea;
+
+typedef struct s_xpm_we
+{
+	void	*img;
+	int		width;
+	int		height;
+	int		bits_per_pixel;
+	int		line_len;
+	int		endian;
+	char	*img_pointer;
+}	t_xpm_we;
+
+typedef struct s_xpm_so
+{
+	void	*img;
+	int		width;
+	int		height;
+	int		bits_per_pixel;
+	int		line_len;
+	int		endian;
+	char	*img_pointer;
+}	t_xpm_so;
+
+typedef struct s_xpm_no
+{
+	void	*img;
+	int		width;
+	int		height;
+	int		bits_per_pixel;
+	int		line_len;
+	int		endian;
+	char	*img_pointer;
+}	t_xpm_no;
 
 typedef struct s_game
 {
