@@ -32,6 +32,8 @@ int	key_config(int keycode, void *param)
 		ac->p->arrow_right = 1;
 	if (keycode == 65361)
 		ac->p->arrow_left = 1;
+	if (keycode == 65505 || keycode == 65506)
+		ac->p->shift = 1;
 	return (0);
 }
 
@@ -52,6 +54,8 @@ int	key_release(int keycode, void *param)
 		ac->p->arrow_right = 0;
 	if (keycode == 65361)
 		ac->p->arrow_left = 0;
+	if (keycode == 65505 || keycode == 65506)
+		ac->p->shift = 0;
 	return (0);
 }
 
@@ -60,6 +64,10 @@ int	action(void *param)
 	t_access	*ac;
 
 	ac = (t_access *)param;
+	if (ac->p->shift)
+		ac->p->move_speed = 10;
+	else
+		ac->p->move_speed = 3;
 	if (ac->p->arrow_left)
 		left_angle(ac);
 	if (ac->p->arrow_right)

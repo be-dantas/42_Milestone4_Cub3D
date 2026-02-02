@@ -61,6 +61,8 @@ typedef struct s_player
 	float		pos_ang;
 	float		pos_dx;
 	float		pos_dy;
+	float		shift;
+	int			move_speed;
 }	t_player;
 
 typedef struct s_calc
