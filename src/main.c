@@ -55,7 +55,7 @@ static void	init_xpm(t_access *ac)
 static void	init_access(t_access *ac)
 {
 	ac->mlx_window = mlx_new_window(ac->mlx_connection,
-		SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D");
+			SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D");
 	if (!ac->mlx_window)
 		error_xpm(ac, "Error mlx window\n");
 	create_image(ac);

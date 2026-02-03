@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:08:18 by bedantas          #+#    #+#             */
-/*   Updated: 2026/01/29 17:48:53 by bedantas         ###   ########.fr       */
+/*   Updated: 2026/02/03 15:45:10 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ char	**ft_strdup_array(char **array)
 	{
 		copy[i] = ft_strdup(array[i]);
 		if (!copy[i])
-        {
-            ft_free_array(copy);
-            return (NULL);
-        }
+		{
+			ft_free_array(copy);
+			return (NULL);
+		}
 		i++;
 	}
 	copy[i] = NULL;

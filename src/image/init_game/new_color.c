@@ -1,6 +1,7 @@
 #include "../../../includes/cub3d.h"
 
-static void	trate_color_error(char *color, t_access *ac, char *line, char **split_color)
+static void	trate_color_error(char *color, t_access *ac,
+		char *line, char **split_color)
 {
 	if (!split_color)
 	{
