@@ -14,6 +14,8 @@ void	error_exit(t_access *ac, char *str, char *line)
 		free(ac->g->tex_ea);
 	if (ac->g->map)
 		ft_free_array(ac->g->map);
+	if (ac->g->fd >= 0)
+		close(ac->g->fd);
 	ft_putstr_fd(str, 2);
 	exit(EXIT_FAILURE);
 }
@@ -94,8 +96,8 @@ void	init_game(t_access *ac, char *file)
 	ac->g->ceiling_color = -1;
 	ac->g->map = ft_calloc(1, sizeof(char *));
 	ac->g->flag_start_map = 0;
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
+	ac->g->fd = open(file, O_RDONLY);
+	if (ac->g->fd < 0)
 		error_exit(ac, "Error opening file\n", NULL);
 	new_variable(ac, fd);
 	valid_game(ac);

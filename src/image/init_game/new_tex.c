@@ -2,11 +2,17 @@
 
 static int	new_tex_utils(char *line, char **var, t_access *ac)
 {
+	int	fd_temp;
+
 	if (*var)
 		error_exit(ac, "Error file map\n", line);
 	*var = ft_substr(line, 3, ft_strlen(line) - 4);
 	if (!*var)
 		error_exit(ac, "Error malloc\n", line);
+	fd_temp = open(*var, O_RDONLY);
+	if (fd_temp < 0)
+		error_exit(ac, "Error opening file texture\n", NULL);
+	close(fd_temp);
 	return (1);
 }
 

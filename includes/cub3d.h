@@ -90,6 +90,7 @@ typedef struct s_xpm_no
 
 typedef struct s_game
 {
+	int			fd;
 	char		*tex_no;
 	char		*tex_so;
 	char		*tex_we;
