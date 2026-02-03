@@ -38,8 +38,11 @@ static void	new_variable(t_access *ac, int fd)
 {
 	char	*line;
 
-	while ((line = get_next_line(fd)))
+	while (1)
 	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
 		if (empty_line(line))
 		{
 			if (ac->g->flag_start_map)
@@ -86,8 +89,6 @@ static void	new_pos_x_y(t_access *ac, int i)
 
 void	init_game(t_access *ac, char *file)
 {
-	int	fd;
-
 	ac->g->tex_no = NULL;
 	ac->g->tex_so = NULL;
 	ac->g->tex_we = NULL;
@@ -99,7 +100,7 @@ void	init_game(t_access *ac, char *file)
 	ac->g->fd = open(file, O_RDONLY);
 	if (ac->g->fd < 0)
 		error_exit(ac, "Error opening file\n", NULL);
-	new_variable(ac, fd);
+	new_variable(ac, ac->g->fd);
 	valid_game(ac);
 	new_pos_x_y(ac, 0);
 }

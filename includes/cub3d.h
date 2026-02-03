@@ -26,30 +26,12 @@ typedef struct s_xpm_we	t_xpm_we;
 typedef struct s_xpm_ea	t_xpm_ea;
 typedef struct s_xpm_so	t_xpm_so;
 
-typedef struct s_access
-{
-	void		*mlx_connection;
-	void		*mlx_window;
-	void		*img;
-	char		*img_pointer;
-	int			bits_per_pixel;
-	int			line_len;
-	int			endian;
-	t_game		*g;
-	t_player	*p;
-	t_calc		*calc;
-	t_xpm_no	*xpm_no;
-	t_xpm_so	*xpm_so;
-	t_xpm_ea	*xpm_ea;
-	t_xpm_we	*xpm_we;
-}	t_access;
-
 typedef struct s_xpm_ea
 {
 	void	*img;
 	int		width;
 	int		height;
-	int		bits_per_pixel;
+	int		bpp;
 	int		line_len;
 	int		endian;
 	char	*img_pointer;
@@ -60,7 +42,7 @@ typedef struct s_xpm_we
 	void	*img;
 	int		width;
 	int		height;
-	int		bits_per_pixel;
+	int		bpp;
 	int		line_len;
 	int		endian;
 	char	*img_pointer;
@@ -71,7 +53,7 @@ typedef struct s_xpm_so
 	void	*img;
 	int		width;
 	int		height;
-	int		bits_per_pixel;
+	int		bpp;
 	int		line_len;
 	int		endian;
 	char	*img_pointer;
@@ -82,11 +64,29 @@ typedef struct s_xpm_no
 	void	*img;
 	int		width;
 	int		height;
-	int		bits_per_pixel;
+	int		bpp;
 	int		line_len;
 	int		endian;
 	char	*img_pointer;
 }	t_xpm_no;
+
+typedef struct s_access
+{
+	void		*mlx_connection;
+	void		*mlx_window;
+	void		*img;
+	char		*img_pointer;
+	int			bpp;
+	int			line_len;
+	int			endian;
+	t_game		*g;
+	t_player	*p;
+	t_calc		*calc;
+	t_xpm_no	xpm_no;
+	t_xpm_so	xpm_so;
+	t_xpm_ea	xpm_ea;
+	t_xpm_we	xpm_we;
+}	t_access;
 
 typedef struct s_game
 {
@@ -145,6 +145,9 @@ typedef struct s_calc
 	int			column_x;
 	int			side;
 	double		raw_dist;
+	double		wall_x;
+	int			tex_x;
+	int			tex_y;
 }	t_calc;
 
 // image/init_game
@@ -175,5 +178,16 @@ void	d_m(t_access *ac);
 
 // movements/utils.c
 int		close_window(t_access *ac);
+void	free_close_window(t_access *ac);
 
+// wall && obstacles
+void	wall_distance_rays(t_access *ac, t_calc *calc, char **map);
+void	wall_perspective_calc(t_calc *calc);
+void	draw_obstacles(t_access *access, t_calc *calc);
+
+// coloring texture
+int    coloring_no(t_access *ac, t_calc *calc, int d);
+int    coloring_so(t_access *ac, t_calc *calc, int d);
+int    coloring_we(t_access *ac, t_calc *calc, int d);
+int    coloring_ea(t_access *ac, t_calc *calc, int d);
 #endif

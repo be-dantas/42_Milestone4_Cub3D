@@ -8,7 +8,7 @@ void	create_image(t_access *ac)
 			SCREEN_HEIGHT);
 	ac->img_pointer = mlx_get_data_addr(
 			ac->img,
-			&ac->bits_per_pixel,
+			&ac->bpp,
 			&ac->line_len,
 			&ac->endian);
 }

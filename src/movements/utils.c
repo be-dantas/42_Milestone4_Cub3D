@@ -1,6 +1,6 @@
 #include "../../includes/cub3d.h"
 
-static void	free_close_window(t_access *ac)
+void	free_close_window(t_access *ac)
 {
 	if (ac->g->tex_no)
 		free(ac->g->tex_no);
@@ -16,6 +16,14 @@ static void	free_close_window(t_access *ac)
 
 int	close_window(t_access *ac)
 {
+	if (ac->xpm_no.img)
+		mlx_destroy_image(ac->mlx_connection, ac->xpm_no.img);
+	if (ac->xpm_so.img)
+		mlx_destroy_image(ac->mlx_connection, ac->xpm_so.img);
+	if (ac->xpm_ea.img)
+		mlx_destroy_image(ac->mlx_connection, ac->xpm_ea.img);
+	if (ac->xpm_we.img)
+		mlx_destroy_image(ac->mlx_connection, ac->xpm_we.img);
 	if (ac->img)
 		mlx_destroy_image(ac->mlx_connection, ac->img);
 	if (ac->mlx_window)
