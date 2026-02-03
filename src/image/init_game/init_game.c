@@ -16,6 +16,11 @@ void	error_exit(t_access *ac, char *str, char *line)
 		ft_free_array(ac->g->map);
 	if (ac->g->fd >= 0)
 		close(ac->g->fd);
+	if (ac->mlx_connection)
+	{
+		mlx_destroy_display(ac->mlx_connection);
+		free(ac->mlx_connection);
+	}
 	ft_putstr_fd(str, 2);
 	exit(EXIT_FAILURE);
 }
