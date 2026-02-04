@@ -11,7 +11,7 @@ static int	new_tex_utils(char *line, char **var, t_access *ac)
 		error_exit(ac, "Error malloc\n", line);
 	fd_temp = open(*var, O_RDONLY);
 	if (fd_temp < 0)
-		error_exit(ac, "Error opening file texture\n", NULL);
+		error_exit(ac, "Error opening file texture\n", line);
 	close(fd_temp);
 	return (1);
 }
