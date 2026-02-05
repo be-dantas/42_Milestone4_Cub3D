@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 11:25:15 by bedantas          #+#    #+#             */
-/*   Updated: 2026/02/05 11:27:01 by bedantas         ###   ########.fr       */
+/*   Updated: 2026/02/05 15:24:29 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_access
 	int			bpp;
 	int			line_len;
 	int			endian;
+	int			len;
 	t_game		*g;
 	t_player	*p;
 	t_calc		*calc;
@@ -161,6 +162,9 @@ typedef struct s_calc
 	int			tex_x;
 	int			tex_y;
 }	t_calc;
+
+// main.c
+void	error_xpm(t_access *ac, char *str);
 
 // image/init_game
 void	error_exit(t_access *ac, char *str, char *line);

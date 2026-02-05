@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 15:19:09 by bedantas          #+#    #+#             */
-/*   Updated: 2026/02/04 15:19:10 by bedantas         ###   ########.fr       */
+/*   Updated: 2026/02/05 15:00:13 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,9 @@ static void	new_pos_x_y(t_access *ac, int i)
 
 void	init_game(t_access *ac, char *file)
 {
+	ac->mlx_connection = mlx_init();
+	if (!ac->mlx_connection)
+		error_xpm(ac, "Error mlx init\n");
 	ac->g->tex_no = NULL;
 	ac->g->tex_so = NULL;
 	ac->g->tex_we = NULL;

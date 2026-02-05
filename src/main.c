@@ -6,13 +6,13 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 15:20:34 by bedantas          #+#    #+#             */
-/*   Updated: 2026/02/04 15:20:35 by bedantas         ###   ########.fr       */
+/*   Updated: 2026/02/05 15:24:12 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-static void	error_xpm(t_access *ac, char *str)
+void	error_xpm(t_access *ac, char *str)
 {
 	if (ac->xpm_no.img)
 		mlx_destroy_image(ac->mlx_connection, ac->xpm_no.img);
@@ -95,16 +95,19 @@ int	main(int argc, char **argv)
 	t_game		g;
 	t_player	p;
 
-	ft_bzero(&ac, sizeof(t_access));
-	ft_bzero(&p, sizeof(t_access));
-	ft_bzero(&g, sizeof(t_access));
 	if (argc != 2)
 		return (1);
+	ac.len = ft_strlen(argv[1]);
+	if (ac.len < 4 || ft_strncmp(argv[1] + ac.len - 4, ".cup", 4) != 0)
+	{
+		ft_putstr_fd("Error .cup\n", 2);
+		exit(EXIT_FAILURE);
+	}
+	ft_bzero(&ac, sizeof(t_access));
+	ft_bzero(&p, sizeof(t_player));
+	ft_bzero(&g, sizeof(t_game));
 	ac.g = &g;
 	ac.p = &p;
-	ac.mlx_connection = mlx_init();
-	if (!ac.mlx_connection)
-		error_xpm(&ac, "Error mlx init\n");
 	init_game(&ac, argv[1]);
 	init_xpm(&ac);
 	init_access(&ac);
