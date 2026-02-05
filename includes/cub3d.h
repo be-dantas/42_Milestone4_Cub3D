@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/05 11:25:15 by bedantas          #+#    #+#             */
+/*   Updated: 2026/02/05 11:27:01 by bedantas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -17,10 +29,10 @@
 # define N_RAYS 1000
 # define CUB_SIZE 64
 
-typedef struct s_game 	t_game;
+typedef struct s_game	t_game;
 typedef struct s_player	t_player;
-typedef struct s_calc 	t_calc;
-typedef struct s_access t_access;
+typedef struct s_calc	t_calc;
+typedef struct s_access	t_access;
 typedef struct s_xpm_no	t_xpm_no;
 typedef struct s_xpm_we	t_xpm_we;
 typedef struct s_xpm_ea	t_xpm_ea;
@@ -99,7 +111,7 @@ typedef struct s_game
 	int			ceiling_color;
 	char		**map;
 	int			flag_start_map;
-} t_game;
+}	t_game;
 
 typedef struct s_player
 {
@@ -186,8 +198,9 @@ void	wall_perspective_calc(t_calc *calc);
 void	draw_obstacles(t_access *access, t_calc *calc);
 
 // coloring texture
-int    coloring_no(t_access *ac, t_calc *calc, int d);
-int    coloring_so(t_access *ac, t_calc *calc, int d);
-int    coloring_we(t_access *ac, t_calc *calc, int d);
-int    coloring_ea(t_access *ac, t_calc *calc, int d);
+int		coloring_no(t_access *ac, t_calc *calc, int d);
+int		coloring_so(t_access *ac, t_calc *calc, int d);
+int		coloring_we(t_access *ac, t_calc *calc, int d);
+int		coloring_ea(t_access *ac, t_calc *calc, int d);
+
 #endif
